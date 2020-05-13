@@ -1,58 +1,57 @@
 import React from 'react';
 import axios from 'axios'
 import './App.css';
-import { render } from 'react-dom';
+// import { render } from 'react-dom';
+import UserCard from './UserCard';
+import FollowerCard from './FollowerCard'
 
 class App extends React.Component {
-  state = {
+  constructor() {
+    super();
+    this.state = { 
     user:{},
     followers:[],
+    userInfo: "",
   };
-
-  componentDidMount() {
-    axios
-      .get("")
-      .then((res =>{
-
-      }))
-
-    })
 
   }
 
-  axios.get("https://api.github.com/users/MichaelS42")
-.then( response => {
-  console.log('checking the ', response);
-  allCards.appendChild(createCard(response.data));
-})
-.catch(error => {
-  console.log('incorrect data', error)
-})
-const followersArray = [
-  'tetondan',
-  'dustinmyers',
-  'justsml',
-  'luishrd',
-  'bigknell'];
-  
-  followersArray.forEach((item) => {
-    axios.get(`https://api.github.com/users/${item}`)
-    .then(response => {
-      allCards.appendChild(createCard(response.data));
+  componentDidMount() {
+    axios.get("https://api.github.com/users/MichaelS42")
+    .then( response => {
+    console.log('checking the ', response);
+    this.setState({ user: response.data })
+    return response.data.followers_url
     })
-    .catch(error => {
-      console.log('incorrect data', error)
-    })
+    .then( response =>{
+      axios.get(response)
+      .then(res => {
+        console.log(res)
+        this.setState({
+          ...this.state,
+          followers: res.data
+        })
+      })
 
-  })
+    }
+
+    )
+    .catch(error => {
+    console.log('incorrect data', error)
+  })}
+
+   
+  
 
 
   render(){
     return(
       <div>
-        <UserCard key={} user={} />
+        <UserCard data={this.state.user}/>
+        {this.state.followers.map(follower => <FollowerCard user={follower} />)}
+        
       </div>
-    )
+    );
   }
 
 
