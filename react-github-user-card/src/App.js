@@ -5,16 +5,18 @@ import './App.css';
 import UserCard from './UserCard';
 import FollowerCard from './FollowerCard'
 
+
 class App extends React.Component {
   constructor() {
     super();
-    this.state = { 
+    this.state = {
     user:{},
     followers:[],
     userInfo: "",
-  };
-
+    };
   }
+
+
 
   componentDidMount() {
     axios.get("https://api.github.com/users/MichaelS42")
@@ -32,33 +34,21 @@ class App extends React.Component {
           followers: res.data
         })
       })
-
     }
-
     )
     .catch(error => {
     console.log('incorrect data', error)
-  })}
-
-   
-  
-
+  })
+};
 
   render(){
     return(
       <div>
         <UserCard data={this.state.user}/>
         {this.state.followers.map(follower => <FollowerCard user={follower} />)}
-        
       </div>
     );
   }
-
-
-
-
-
-
 }
 
 export default App;

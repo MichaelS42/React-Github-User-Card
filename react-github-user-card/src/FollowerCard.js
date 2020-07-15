@@ -3,12 +3,12 @@ import React from 'react'
 
 const FollowerCard = (props) => {
     console.log(props.user)
-     
     return(
-    <div>
+    <follower>
         <h1>{props.user.login}</h1>
         <img src={props.user.avatar_url}/>
-    </div>
+        <h4>Github URL: {props.user.html_url}</h4>
+    </follower>
     )
 }
   
